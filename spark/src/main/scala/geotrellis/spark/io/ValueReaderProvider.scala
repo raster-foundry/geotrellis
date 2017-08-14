@@ -14,11 +14,14 @@
  * limitations under the License.
  */
 
-package geotrellis.pointcloud.pipeline
+package geotrellis.spark.io
 
-trait ExprType {
-  val `type`: String
-  lazy val name = s"${`type`}.${this.getClass.getName.split("\\$").last}"
+import geotrellis.spark._
+import java.net.URI
 
-  override def toString = name
+
+trait ValueReaderProvider {
+  def canProcess(uri: URI): Boolean
+
+  def valueReader(uri: URI, store: AttributeStore): ValueReader[LayerId]
 }
